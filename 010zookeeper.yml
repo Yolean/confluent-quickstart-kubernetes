@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zookeeper
+  namespace: kafka
+  labels:
+    app: zookeeper
+spec:
+  containers:
+  - name: zookeeper
+    image: confluentinc/cp-zookeeper:3.2.0@sha256:cf151144d5cbe094af291eb1a86f5dcfae4b4cdb9f16803bff2e5010a9b16fd1
+    env:
+    - name: ZOOKEEPER_CLIENT_PORT
+      value: "32181"
+    ports:
+    - containerPort: 32181
