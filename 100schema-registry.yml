@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: schema
+  namespace: cp-quickstart
+spec:
+  ports:
+  - port: 8081
+  clusterIP: None
+  selector:
+    app: schema-registry
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: registry
+  namespace: cp-quickstart
+spec:
+  serviceName: "schema"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: schema-registry
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: schema-registry
+        image: confluentinc/cp-schema-registry:3.2.0@sha256:ae0a2021a7ac52bdb98dd760850a50d72747a62612f257be92b0698654bac70d
+        env:
+        - name: SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL
+          value: zookeeper:32181
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          value: registry-0.schema.cp-quickstart.svc.cluster.local
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value: http://0.0.0.0:8081
+        ports:
+        - containerPort: 8081
