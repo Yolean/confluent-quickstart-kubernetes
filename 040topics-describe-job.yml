@@ -1,16 +1,16 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: topics-quickstart
+  name: topics-describe
   namespace: cp-quickstart
 spec:
   template:
     metadata:
-      name: topics-quickstart
+      name: topics-describe
     spec:
       containers:
       - name: kafka
         image: confluentinc/cp-kafka:3.2.0@sha256:82cb7a49161705ea750f3466700cce7a57e45d772f4bdbcddcdaac336dac77c0
         command: ["kafka-topics"]
-        args: ["--create", "--topic", "foo", "--partitions", "1", "--replication-factor", "1", "--if-not-exists", "--zookeeper", "zookeeper:32181"]
+        args: ["--describe", "--topic", "foo", "--zookeeper", "zookeeper:32181"]
       restartPolicy: Never

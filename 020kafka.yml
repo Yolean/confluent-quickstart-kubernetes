@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kafka
+  namespace: cp-quickstart
 spec:
   ports:
   - port: 29092
@@ -13,7 +14,8 @@ spec:
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: kafka
+  name: broker
+  namespace: cp-quickstart
 spec:
   serviceName: "kafka"
   replicas: 1
@@ -30,6 +32,6 @@ spec:
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: "zookeeper:32181"
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: PLAINTEXT://kafka:29092
+          value: PLAINTEXT://broker-0.kafka.cp-quickstart.svc.cluster.local:29092
         ports:
         - containerPort: 29092
