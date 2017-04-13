@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rest-proxy-consumer
+  namespace: cp-quickstart
+spec:
+  template:
+    metadata:
+      name: rest-proxy-consumer
+    spec:
+      containers:
+      - name: kafka
+        image: confluentinc/cp-schema-registry:3.2.0@sha256:ae0a2021a7ac52bdb98dd760850a50d72747a62612f257be92b0698654bac70d
+        command: ["curl"]
+        args:
+        - -X
+        - POST
+        - -H
+        - "Content-Type: application/vnd.kafka.v1+json"
+        - --data
+        - '{"name": "my_consumer_instance", "format": "avro", "auto.offset.reset": "smallest"}'
+        - http://rest:8082/consumers/my_avro_consumer
+      restartPolicy: Never

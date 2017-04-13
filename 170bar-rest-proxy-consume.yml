@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bar-rest-proxy-consume
+  namespace: cp-quickstart
+spec:
+  template:
+    metadata:
+      name: bar-rest-proxy-consume
+    spec:
+      containers:
+      - name: kafka
+        image: confluentinc/cp-schema-registry:3.2.0@sha256:ae0a2021a7ac52bdb98dd760850a50d72747a62612f257be92b0698654bac70d
+        command: ["curl"]
+        args:
+        - -X
+        - GET
+        - -H
+        - "Accept: application/vnd.kafka.v1+json"
+        - http://rest:8082/consumers/my_avro_consumer/instances/my_consumer_instance/topics/bar
+      restartPolicy: Never
