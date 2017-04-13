@@ -1,0 +1,14 @@
+# This is optional, but it's useful during development
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rest
+  namespace: cp-quickstart
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: rest
+          servicePort: 8082
