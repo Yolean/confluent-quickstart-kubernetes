@@ -19,5 +19,6 @@ spec:
           /usr/bin/kafka-avro-console-producer \
           --broker-list broker-0.kafka.cp-quickstart.svc.cluster.local:29092 \
           --topic bar \
+          --property schema.registry.url=http://registry-0.schema:8081 \
           --property value.schema='{"type":"record","name":"myrecord","fields":[{"name":"f1","type":"string"}]}'
       restartPolicy: Never
